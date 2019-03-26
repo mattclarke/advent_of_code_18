@@ -1,0 +1,305 @@
+data = """krdmtuqjmwfoevnadixyclzspv
+yrdmtuqjiwfoevnabfxyclzsph
+kqjvtuqjgwfoevnabixyclzsph
+krdmtuqjgwjoevnaolxyclzsph
+krdmtnqjgwfoevnabiiyxlzsph
+lrymtuqjgwhoevnabixyclzsph
+krdmguqjgwfoevnabixkclzsah
+krdmtuqjgwfoevnibinyclzdph
+krdmtucjgwfoevnabhxyclzspv
+krdmtuqjgwfoevtabixyulzsuh
+krdmtuqqgwfoevnabixdblzsph
+krdmtuqjawfsevnabiyyclzsph
+krdmtuqjgwfoevnabzxccldsph
+krdmtcqegwfhevnabixyclzsph
+krdmtuqjgwforvnaxixycgzsph
+krdmtuqjgwfoqvnaxixyclzskh
+krdmtutjgwfoevyajixyclzsph
+krdmtuqmgwfoevnabixycxzspc
+krdptuqjgwhoevkabixyclzsph
+krdttuqjhwfoevnabixyclzspa
+krdmtuqjgwfoevnabibyhnzsph
+krdmtuqjywfoevntbidyclzsph
+krdmtojdgwfoevnabixyclzsph
+krdmtuqjgpfuevnauixyclzsph
+krdmtoqjgwfrevjabixyclzsph
+krdmtuqjgwfoyvndbixyclzyph
+krdmtxqjgwfomvnayixyclzsph
+crdmtuqjgwfoevnabixyoxzsph
+krdmtpqjgwfdevnabixycqzsph
+krdmtuqjgwfoevuabfxsclzsph
+krdmtuqjgwfoevnybixycdzskh
+krdmtusjgwfoevnabixxclzdph
+krdmtuqjgwfoevnaboxyglzjph
+zrdmtuqjgrfoevnalixyclzsph
+krdmtuqjclfoevnabixyclzsih
+kqdmtlqjgwfoevnabtxyclzsph
+krdmtuqggwpoevnabixyclzlph
+krdmtuqjgwfobwnrbixyclzsph
+krdmtuqjgwfoevwabkxycnzsph
+kldmtuqjgwfogvyabixyclzsph
+krdmtuqvgwfoevnabixtcrzsph
+krdmtuqjgwroevnabixyrlzspw
+krdmtuqjgjfoevnabixyelzrph
+krdmtuqjgffoevnaaixyclzspa
+krdmtuqjgwfoevxabifywlzsph
+krdmtuqjgwfoevlabixycrzsrh
+krdmtuqjgwfpevnabixocqzsph
+krdmtuqjgwfoevdabixycnhsph
+krdmtmqjgwfoevnajixyclvsph
+krdmtuqjjvfoevnabgxyclzsph
+krzmtuqjgwfoevnabioyckzsph
+kodmtwqjgwfoevnabieyclzsph
+ehdmthqjgwfoevnabixyclzsph
+krdmtuqjxwioevnabixyclbsph
+grdmkutjgwfoevnabixyclzsph
+krdutuqjgwfoebnabixaclzsph
+krdmtuqjgwfoebnabixyclcjph
+krdmteqjgwfoevnlbixycizsph
+krdmtegjgwhoevnabixyclzsph
+krdmtuqjgwfdrvnabixbclzsph
+krdmtuqjgyfoevidbixyclzsph
+krdmtubjawfoevnabixyclzuph
+krdmtuqjgwfoavjabixyclzssh
+krdmtuqjgwfoeonabixyclzsvo
+vrdmtuqjgwffevnabixpclzsph
+krdmtuqonwfoevnabixycfzsph
+krdmtumjgwfpevnubixyclzsph
+krdmtutjgwfoevnaciyyclzsph
+krdrtuqjgwfoevnwbixyglzsph
+krdmtuqjgwfoevbabixyclesdh
+krdmtuqcgwfoevnabixyqdzsph
+krdmtuqjgwfogvnabrxycezsph
+krdmujqkgwfoevnabixyclzsph
+krdmtuqjgtooevnabixyclzzph
+jrdntuqjgwfoevnabixyclrsph
+krdmtuqjgzfoevkebixyclzsph
+krdmtuqjgwfosvnaeixyclztph
+krdmtuqjgwfoevzabixydlzaph
+krdmtuqzgwfoavnabiqyclzsph
+krdmtuqvgwfoevnabixycwzspv
+krdmvuqjgwteevnabixyclzsph
+krdmtujjgwfoevgybixyclzsph
+kydmtuqjgwfoeunacixyclzsph
+krdmtuqjgifoqvnabicyclzsph
+krnltiqjgwfoevnabixyclzsph
+krdmtuqjgwfoevnabhxyclzsgi
+kfdmtuqjnwfowvnabixyclzsph
+kmdmtuljgwfoevnabixycvzsph
+krdmtxqjgwaoevvabixyclzsph
+kramduqjgwfoevnabixyclzwph
+krdutuqjgwfoennabixyclziph
+krdmvuqfgwfoevnacixyclzsph
+krdmtuqogwfoevnabmvyclzsph
+krdmfuqjgwfoyvnabixyclzseh
+krdmtuqjgweoelnabixyclzspd
+krdmtumjgwfoevnabixyclzypo
+krdmtuqjgkfoevhabixyclzsqh
+kjdmtuqjgwfoevgabixyclzsah
+krdmtuqjgwfoevnlbixyclzsbw
+mrdmtxqjgwfoevnabgxyclzsph
+krdmtuqpgwfoevnhbixycltsph
+krdmtuqjgwfmqvnabixyclzslh
+krqmtuqogwfoevnaqixyclzsph
+krdmtusjggfoevnabicyclzsph
+krcmtuljgwfoevlabixyclzsph
+krdmtuojgwfoeknabixyclzsrh
+krdmtuqjtwfoevnabiypclzsph
+krvmtupjgwfoevnabixycldsph
+krdmtuxjgwfoevaabxxyclzsph
+krdmtvqlgwfoehnabixyclzsph
+wrdmtuqjgwfoevnabixyclzdpy
+krdatuqlgwfoevnabixyclzsjh
+krdmtuqjgwfoevpabkxyclzsjh
+krdmtuqjgwqvsvnabixyclzsph
+krdmtwqjgwfoevnobixyclzspm
+krdmtuqjgssoevnabixyclgsph
+krdmtuqjgwfoevnafixyclzbpp
+krdmtuqjowfoevxabiuyclzsph
+krdmtuqrgwfoevntbixyclzspu
+krdmtucjgwfoevnabixcnlzsph
+krddtuojgwfoevnabixyclzzph
+krdmtuqjgwuoevnabiqycldsph
+kpdmpuqjgwfoevnabixyclzslh
+krdmtuqjgwfoewnabixyzxzsph
+krdmtuejswfoevhabixyclzsph
+krdmtuqggwfoevntbikyclzsph
+krdmtuqjgwfoevnabixydlhnph
+krdmtcqjglfoevnaxixyclzsph
+krumyuqjgwfoevnrbixyclzsph
+kgdmmuqjgwooevnabixyclzsph
+krdmteqjgwfqevwabixyclzsph
+krdmfuqjgwfpevnabixyclzspq
+erdmtycjgwfoevnabixyclzsph
+krdmcuqjgwfoevnabixjglzsph
+krdmtuqjgtfoeunabixiclzsph
+krdmtuqjgwfoevmqbixyclzspu
+krlmtuqjvwfoevnabikyclzsph
+krdotuqjgwfoevnagrxyclzsph
+krdmtuqbgwfoefnabixyclasph
+kwdmtuqjgwfosjnabixyclzsph
+kydmtuqjgwfoevcabixycezsph
+crdmtuqjgwloevnabixkclzsph
+krimtuqhgwfoevnbbixyclzsph
+krdmjuqagwfoevnabicyclzsph
+krdmtuqdgzfoevnabixydlzsph
+krdmtuqjgwwoevnaqixyclzspf
+krdmtuqjgwfoevnabdxyzvzsph
+krdmtuqjgwaofvnabixyclzsnh
+krdmturjgwfmevnabixyclzspn
+krdmvuqjgwboevnabixyolzsph
+krdmtuqjgwfomvnabijyclzspx
+bedmtuqjgwfoevnabixyslzsph
+krdmtenjgwfoevnabixyclzsqh
+krdmtuqugwfoevnabixpcdzsph
+krdmtuqjgiloevnabrxyclzsph
+krdmtupjcwfoevnabixyclwsph
+kremtuqjgwfoevnabixyyjzsph
+krdmtuqjgwnoovnabixyclzshh
+qrdmtuqjgwfoevnabixyciasph
+krdituqjgbfoevnagixyclzsph
+krdmnoqjgwfoqvnabixyclzsph
+krdmtuqegwfoevhkbixyclzsph
+krdmkucjgwfoevnabixnclzsph
+krdmtuqbnwpoevnabixyclzsph
+krdmttqjgwfoevnabixyclbspz
+srdmtubjgwfrevnabixyclzsph
+krdmruqjzwfoevnabixyclesph
+ardmtuqfgwwoevnabixyclzsph
+yrumtuqjgwhoevnabixyclzsph
+rrdmtuqjgwfoevnabsxycwzsph
+krpmtuqjgwfoevdabixyclzzph
+krdmuuqjgwfoevnabixyclriph
+krdmtuqjgwfobvnabixyvgzsph
+krdmbuujgwfoevnabixycczsph
+krhmtuwjgwfoeqnabixyclzsph
+krdwtuqjgwfoevnkbixyclzzph
+krdmtuqjgwkoeqnabixyvlzsph
+kadmtuqjgwfoednabcxyclzsph
+krdmtyqqgwfoevnabizyclzsph
+krdmtuqjgnfoevnabiyycmzsph
+krdmtuqjcwfouvnabixyclznph
+krdmtuqjjwfcevnqbixyclzsph
+krdmtuqfgbfoevgabixyclzsph
+kkdmtuqjgwfoevnapixyclzsth
+nrdmtuqjgwtoevnakixyclzsph
+krdmtuqjglfoevlabixdclzsph
+zrdmtuqjgwfoevndbixbclzsph
+krdmeuqjgwfoeenabixyclrsph
+krdmoaqjzwfoevnabixyclzsph
+krsmtuqjgwfoevnwbixyclzsfh
+kadmtuqjgwfoqdnabixyclzsph
+krsmtuqjgofoevnabixkclzsph
+krdmtuqjdwfoevnibixdclzsph
+mrdmtuqjgwfouvnabixyclzfph
+trdmtlqjgwfoevnabixyclzjph
+trdmyuqjgwfozvnabixyclzsph
+krdmtiqjgwroevnabixyclzspk
+erdmtutjgwftevnabixyclzsph
+krdwyuqjgwfoevnaaixyclzsph
+krdmthqbgwfoevnabixyclksph
+krdmttqjgwfoivnabixyclvsph
+krdmtuqjgwfoefnabixyflgsph
+khdmtuqjgwfoevnajixyvlzsph
+krdmtuqvgwfoevnasixyclzspt
+krdmtuqjgkwogvnabixyclzsph
+krdmtuqjgwfoevnaboxpglzjph
+kadmtuqjgwfoxvnabixyclziph
+krdmtuqjfwfoevnabaxycbzsph
+krdjtuqjgwfoevnabiryhlzsph
+krdvtuqjgpfoevnabcxyclzsph
+brdmtuqjgwfoevnafixyqlzsph
+krdmtuqjgwfoevnavixxcllsph
+krdhtuqjkwfoevfabixyclzsph
+krdmtuqjgjfoevnawixyclzsuh
+krddtuqjgwfoeqnabiwyclzsph
+krhmtuqjgwfnevnabinyclzsph
+kedmtuqjgzfmevnabixyclzsph
+qrdmtuqjgwfoevntbixyclzxph
+krdmtuqsgwfoevnabixvclzrph
+scdmtuqjgwfoevnabixtclzsph
+krymtuqjgjfolvnabixyclzsph
+krdmtuqjgwfkevnablxyclzskh
+krymtuqjswfoevnabixyclzvph
+krdmtuqjhwfoevnabixycwzspd
+krdmtuxjgwfoevnabyxyclzzph
+krdmtlqjgwfovvnabilyclzsph
+krdmtuqjgwfoevnaaijcclzsph
+krdatrqjgwfokvnabixyclzsph
+krdmtuqjgwfoevnaxifyclzkph
+krddtuqjgwfoevnabixccozsph
+krdmtuqngwfoevnabiyycxzsph
+krdmtumdgwfoevnqbixyclzsph
+krdmtuqjgwfoevnabixyxlmsch
+krdmtudzgwfoevnabixtclzsph
+krdmtuqjgwfoevnpbixyclhspl
+krdmtqqjgwjoevnabexyclzsph
+kydmtuqzgwfoevnabixyclwsph
+krdmeucjgwqoevnabixyclzsph
+krdmtuqjghfoevjabixyclzspp
+krdmtuqjgjfwevnabixyclzskh
+krdmkuhjgwfoevnabipyclzsph
+krdytuqjgwfoevnabibyclztph
+krdmtuqjgwfpevnabisyzlzsph
+kmdmtgqjgwfsevnabixyclzsph
+krdmtuqjgsfoevnabijyclzszh
+krdmtuqjgwfoevnabivyclzuuh
+krdstuqjgrfoevnabixyclzspu
+jrdmtuqjgwfotvnabixyclzspj
+krdmrumjgwfoevnabixeclzsph
+krpmtusjgwfoevnabioyclzsph
+"""
+
+# Part 1
+twos = 0
+threes = 0
+
+for id in data.splitlines():
+    counts = {}
+    twice = 0
+    thrice = 0
+
+    for c in id:
+        if c not in counts:
+            counts[c] = 1
+        elif counts[c] == 1:
+            counts[c] += 1
+            twice += 1
+        elif counts[c] == 2:
+            counts[c] += 1
+            twice -= 1
+            thrice += 1
+
+    if twice > 0:
+        twos += 1
+    if thrice > 0:
+        threes += 1
+
+print("Part 1: {}".format(twos * threes))
+
+
+# Part 2
+def compare_ids(a, b):
+    mismatches = 0
+    matched_str = ""
+
+    for i, j in zip(a, b):
+        if i != j:
+            mismatches += 1
+        else:
+            matched_str += i
+    return mismatches, matched_str
+
+
+ids = data.splitlines()
+result = None
+
+for i, v1 in enumerate(ids):
+    for v2 in ids[i+1:]:
+        ans = compare_ids(v1, v2)
+        if ans[0] == 1:
+            result = ans[1]
+
+print("Part 2: ", result)
+
+
