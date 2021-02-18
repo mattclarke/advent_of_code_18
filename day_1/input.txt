@@ -1,4 +1,4 @@
-data = """+9
++9
 +15
 -14
 +10
@@ -1031,31 +1031,3 @@ data = """+9
 +8
 +17
 +120917
-"""
-
-# Part 1
-total = 0
-
-for i in data.splitlines():
-    total += int(i)
-
-print("Part 1:", total)
-
-# Part 2
-total = 0
-values = {0}
-ans = 0
-
-found_duplicate = False
-
-while not found_duplicate:
-    for i in data.splitlines():
-        total += int(i)
-        if total in values:
-            ans = total
-            found_duplicate = True
-            break
-        else:
-            values.add(total)
-
-print("Part 2:", ans)
