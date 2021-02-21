@@ -1,4 +1,4 @@
-data = """#1 @ 55,885: 22x10
+#1 @ 55,885: 22x10
 #2 @ 102,14: 23x14
 #3 @ 539,327: 21x22
 #4 @ 429,353: 14x25
@@ -1347,83 +1347,3 @@ data = """#1 @ 55,885: 22x10
 #1347 @ 753,119: 21x29
 #1348 @ 83,588: 21x18
 #1349 @ 724,871: 21x26
-"""
-
-# data = """#1 @ 1,3: 4x4
-# #2 @ 3,1: 4x4
-# #3 @ 5,5: 2x2"""
-
-
-# Part 1
-def parse_input(input):
-    input = (
-        input.replace("#", "")
-        .replace("@", "")
-        .replace(":", "")
-        .replace("x", " ")
-        .replace(",", " ")
-    )
-    parts = input.split()
-    return {
-        "n": int(parts[0]),
-        "x": int(parts[1]),
-        "y": int(parts[2]),
-        "w": int(parts[3]),
-        "h": int(parts[4]),
-    }
-
-
-def print_grid(grid, x, y):
-    for j in range(y + 2):
-        row = ""
-        for i in range(x + 2):
-            key = "{},{}".format(i, j)
-            if key in grid:
-                row += str(grid[key])
-            else:
-                row += "."
-        print(row)
-
-
-grid = {}
-ans = 0
-max_x = 0   # For plotting only
-max_y = 0   # For plotting only
-
-for d in data.splitlines():
-    info = parse_input(d)
-
-    for i in range(info["w"]):
-        for j in range(info["h"]):
-            pos_x = info["x"] + i
-            pos_y = info["y"] + j
-            max_x = max(max_x, pos_x)
-            max_y = max(max_y, pos_y)
-            key = "{},{}".format(pos_x, pos_y)
-            if key in grid:
-                if grid[key] != "X":
-                    ans += 1
-                grid[key] = "X"
-            else:
-                grid[key] = info["n"]
-
-# print_grid(grid, max_x, max_y)
-print(ans)
-
-# Part 2
-for d in data.splitlines():
-    info = parse_input(d)
-    overlapped = False
-
-    for i in range(info["w"]):
-        for j in range(info["h"]):
-            pos_x = info["x"] + i
-            pos_y = info["y"] + j
-            key = "{},{}".format(pos_x, pos_y)
-            if grid[key] == "X":
-                overlapped = True
-                break
-        if overlapped:
-            break
-    if not overlapped:
-        print(info["n"])
