@@ -1,4 +1,3 @@
-
 with open("input.txt") as f:
     PUZZLE_INPUT = f.read()
 
@@ -48,12 +47,10 @@ ids = PUZZLE_INPUT.splitlines()
 result = None
 
 for i, v1 in enumerate(ids):
-    for v2 in ids[i+1:]:
+    for v2 in ids[i + 1 :]:
         ans = compare_ids(v1, v2)
         if ans[0] == 1:
             result = ans[1]
 
 # krdmtuqjgwfoevnaboxglzjph
 print("Part 2:", result)
-
-

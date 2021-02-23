@@ -7,17 +7,18 @@ def react(polymer):
 
     while i < len(polymer) - 1:
         if polymer[i].upper() == polymer[i + 1].upper() and (
-                polymer[i].islower()
-                and polymer[i + 1].isupper()
-                or polymer[i].isupper()
-                and polymer[i + 1].islower()
+            polymer[i].islower()
+            and polymer[i + 1].isupper()
+            or polymer[i].isupper()
+            and polymer[i + 1].islower()
         ):
-            polymer = polymer[:i] + polymer[i + 2:]
+            polymer = polymer[:i] + polymer[i + 2 :]
             if i > 0:
                 i -= 1
         else:
             i += 1
     return len(polymer)
+
 
 # 9154
 print(f"Part 1: {react(PUZZLE_INPUT)}")
@@ -37,4 +38,3 @@ for a in alpha:
 
 # 4556
 print(f"Part 2: {most_reduced}")
-

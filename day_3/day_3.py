@@ -35,8 +35,8 @@ def print_grid(grid, x, y):
 
 grid = {}
 ans = 0
-max_x = 0   # For plotting only
-max_y = 0   # For plotting only
+max_x = 0  # For plotting only
+max_y = 0  # For plotting only
 
 for d in PUZZLE_INPUT.splitlines():
     info = parse_input(d)

@@ -65,7 +65,7 @@ results = {}
 for j in range(min_y, max_y + 1):
     for i in range(min_x, max_x + 1):
         # Find closest
-        c = get_closest((i,j), coords)
+        c = get_closest((i, j), coords)
         if len(c) == 1:
             if c[0] in results:
                 results[c[0]] += 1
@@ -88,12 +88,12 @@ def get_total_distance(a, coords):
     return total
 
 
-limit = 10000 # 32 for test case
+limit = 10000  # 32 for test case
 count = 0
 
 for j in range(min_y, max_y + 1):
     for i in range(min_x, max_x + 1):
-        t = get_total_distance((i,j), coords)
+        t = get_total_distance((i, j), coords)
         if t < limit:
             # print("{},{} = {}".format(i,j,t))
             count += 1
