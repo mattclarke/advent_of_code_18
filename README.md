@@ -10,3 +10,6 @@ https://adventofcode.com/2018
 - Day 20
 - Day 22 part 2
 - Day 23 part 2
+
+# TODO perhaps?
+- Day 13 is a bit slow
