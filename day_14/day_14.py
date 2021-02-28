@@ -14,11 +14,11 @@ elf_1 = 0
 elf_2 = 1
 
 recipes = [3, 7]
-num_recipes = 513401
+PUZZLE_INPUT = 513401   # number of recipes
 
-print_board(recipes, elf_1, elf_2)
+# print_board(recipes, elf_1, elf_2)
 
-while len(recipes) <= num_recipes + 10:
+while len(recipes) <= PUZZLE_INPUT + 10:
     # Add new recipes
     new_val = recipes[elf_1] + recipes[elf_2]
     val_1 = new_val // 10
@@ -35,28 +35,24 @@ while len(recipes) <= num_recipes + 10:
 
 ans = ""
 for i in range(10):
-    ans += "{}".format(recipes[num_recipes + i])
+    ans += "{}".format(recipes[PUZZLE_INPUT + i])
 
-print(ans)
+# 5371393113
+print(f"Part 1: {ans}")
 
 # Part 2
+# Answer = 20286858
 elf_1 = 0
 elf_2 = 1
 
-
-import collections
-
-# Use a deque, so don't have to keep reallocating space for a list
-recipes = []
-recipes.append(3)
-recipes.append(7)
-pinput = "513401"
+recipes = [3, 7]
+puzzle_input = f"{PUZZLE_INPUT}"
 
 output = "37"
 count = 2
 
 while True:
-    if output != pinput[: len(output)]:
+    if output != puzzle_input[: len(output)]:
         output = ""
 
     # Add new recipes
@@ -66,17 +62,17 @@ while True:
     if val_1 > 0:
         recipes.append(val_1)
         count += 1
-        if output + str(val_1) == pinput[: len(output) + 1]:
+        if output + str(val_1) == puzzle_input[: len(output) + 1]:
             output += str(val_1)
         else:
             output = ""
-        if pinput in output:
-            print_board(recipes[-10:], 0, 0)
-            print("Got it!", len(recipes) - len(pinput))
+        if puzzle_input in output:
+            # print_board(recipes[-10:], 0, 0)
+            print(f"Part 2: {len(recipes) - len(puzzle_input)}")
             break
     recipes.append(val_2)
     count += 1
-    if output + str(val_2) == pinput[: len(output) + 1]:
+    if output + str(val_2) == puzzle_input[: len(output) + 1]:
         output += str(val_2)
     else:
         output = ""
@@ -85,10 +81,10 @@ while True:
     elf_1 = (elf_1 + 1 + recipes[elf_1]) % len(recipes)
     elf_2 = (elf_2 + 1 + recipes[elf_2]) % len(recipes)
 
-    if len(output) >= 5:
-        print(output)
+    # if len(output) >= 5:
+    #     print(output)
     # print_board(recipes, elf_1, elf_2)
-    if pinput in output:
+    if puzzle_input in output:
         print_board(recipes[-10:], 0, 0)
-        print("Got it!", len(recipes) - len(pinput))
+        print(f"Part 2: {len(recipes) - len(puzzle_input)}")
         break
