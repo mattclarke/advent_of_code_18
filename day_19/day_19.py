@@ -166,7 +166,7 @@ def print_registers(ip, before, cmd, after):
 
 print(cmds)
 
-# For part 1
+# For part 1 = 1836
 registers = [0, 0, 0, 0, 0, 0]
 ip = 0
 first = cmds.pop(0)
@@ -197,3 +197,4 @@ while True:
 # Part 2
 # Quicker to read the source code: it is essentially finding the factors of a big number
 # then summing them to together.
+# 18992556

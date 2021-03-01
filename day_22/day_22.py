@@ -1,7 +1,5 @@
-target = (10, 10)
-depth = 510
 
-# Real data
+# Input data
 depth = 11394
 target = (7, 701)
 
