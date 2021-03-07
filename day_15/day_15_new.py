@@ -64,11 +64,14 @@ EXAMPLE_6 = """
 """
 
 
-def print_board(grid, elves, goblins, round):
+def print_board(grid, elves, goblins, round, extras=None):
     print(f"After {round} rounds:")
+    top = [str(x % 10) for x in range(len(grid[0]))]
+    print(" " + "".join(top))
+
     y = len(grid)
     for y, row in enumerate(grid):
-        line = []
+        line = [str(y%10)]
         extra = []
         for x in range(len(row)):
             if (x, y) in elves:
@@ -77,6 +80,8 @@ def print_board(grid, elves, goblins, round):
             elif (x, y) in goblins:
                 line.append("G")
                 extra.append(f"G({goblins[(x, y)]})")
+            elif extras and (x, y) in extras:
+                line.append(str(extras[(x,y)] % 10))
             else:
                 line.append(row[x])
 
@@ -109,11 +114,75 @@ def process_input(starting_grid):
 
 
 def calculate_move_order(elves, goblins):
-    order = list(elves.keys())
-    order.extend(goblins.keys())
-    order.sort(key=lambda x: x[0])
-    order.sort(key=lambda x: x[1])
+    order = []
+    for e in elves:
+        order.append((e, "E"))
+    for g in goblins:
+        order.append((g, "G"))
+
+    order.sort(key=lambda x: x[0][0])
+    order.sort(key=lambda x: x[0][1])
     return order
+
+
+def find_closest_2(origin, grid, elves, goblins, possibles, debug=False):
+    queue = [(origin, 0)]
+    visited = {
+        origin: 0
+    }
+
+    while queue:
+        pos, distance = queue.pop(0)
+
+        for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+            npos = (pos[0] + x, pos[1] + y)
+
+            if grid[npos[1]][npos[0]] == "#":
+                continue
+            if npos in elves or npos in goblins:
+                continue
+
+            if npos not in visited or distance + 1 < visited[npos]:
+                visited[npos] = distance + 1
+                queue.append((npos, distance + 1))
+
+    if debug:
+        print_board(grid, elves, goblins, "debug", visited)
+
+    closest = []
+    lowest = 10000000
+
+    for poss in possibles:
+        if poss not in visited:
+            continue
+
+        dist = visited[poss]
+        if dist < lowest:
+            closest = [poss]
+            lowest = dist
+        elif dist == lowest:
+            closest.append(poss)
+
+    solutions = []
+    for close in closest:
+        queue = [close]
+        seen = set()
+
+        while queue:
+            pos = queue.pop(0)
+            for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+                npos = (pos[0] + x, pos[1] + y)
+                if npos == origin:
+                    solutions.append(pos)
+                    continue
+
+                if npos in seen:
+                    continue
+
+                if npos in visited and visited[npos] < visited[pos]:
+                    seen.add(npos)
+                    queue.append(npos)
+    return solutions
 
 
 def find_closest(origin, grid, elves, goblins,  possibles):
@@ -174,12 +243,12 @@ def solve(starting_grid):
     while True:
         round_finished = True
         order = calculate_move_order(elves, goblins)
-        for pos in order:
-            if pos in elves:
+        for pos, race in order:
+            if race == "E" and pos in elves:
                 adjacent = get_adjacent(pos, goblins)
                 if not adjacent:
                     possible_spaces = gross_possibles(elves, goblins, grid, True)
-                    possible_routes = find_closest(pos, grid, elves, goblins, possible_spaces)
+                    possible_routes = find_closest_2(pos, grid, elves, goblins, possible_spaces)
                     possible_routes.sort(key=lambda x: x[0])
                     possible_routes.sort(key=lambda x: x[1])
                     if possible_routes:
@@ -192,11 +261,11 @@ def solve(starting_grid):
 
                 if adjacent:
                     do_attack(adjacent, goblins, 3)
-            elif pos in goblins:
+            elif race == "G" and pos in goblins:
                 adjacent = get_adjacent(pos, elves)
                 if not adjacent:
                     possible_spaces = gross_possibles(elves, goblins, grid, False)
-                    possible_routes = find_closest(pos, grid, elves, goblins,
+                    possible_routes = find_closest_2(pos, grid, elves, goblins,
                                                    possible_spaces)
                     possible_routes.sort(key=lambda x: x[0])
                     possible_routes.sort(key=lambda x: x[1])
@@ -212,7 +281,7 @@ def solve(starting_grid):
                     do_attack(adjacent, elves, 3)
 
             if not elves or not goblins:
-                if pos != order[~0]:
+                if pos != order[~0][0]:
                     # Round not finished
                     round_finished = False
                 break
@@ -222,6 +291,7 @@ def solve(starting_grid):
         if not elves or not goblins:
             break
     winners = goblins if goblins else elves
+    # print(i, sum(winners.values()))
     return i * sum(winners.values())
 
 
@@ -231,7 +301,7 @@ def do_attack(adjacent, enemies, damage):
     for enemy in adjacent:
         if enemies[enemy] < lowest:
             lowest = enemies[enemy]
-            targets=[enemy]
+            targets = [enemy]
         elif enemies[enemy] == lowest:
             targets.append(enemy)
     # Sort choices based on reading order
@@ -263,11 +333,12 @@ def gross_possibles(elves, goblins, grid, is_elves):
     return possible_spaces
 
 
-# assert solve(EXAMPLE_1) == 27730
-# assert solve(EXAMPLE_2) == 36334
-# assert solve(EXAMPLE_3) == 39514
-# assert solve(EXAMPLE_4) == 27755
-# assert solve(EXAMPLE_5) == 28944
-# assert solve(EXAMPLE_6) == 18740
+assert solve(EXAMPLE_1) == 27730
+assert solve(EXAMPLE_2) == 36334
+assert solve(EXAMPLE_3) == 39514
+assert solve(EXAMPLE_4) == 27755
+assert solve(EXAMPLE_5) == 28944
+assert solve(EXAMPLE_6) == 18740
 
+# 243390
 print(f"Part 1: {solve(PUZZLE_INPUT)}")

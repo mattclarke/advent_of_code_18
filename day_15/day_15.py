@@ -192,7 +192,29 @@ def print_board(board, moves=None):
                 else:
                     line += "{}".format(str(board[i][j]))
         print(line)
+    print("")
 
+
+def print_board_2(board, elves, goblins, round, extras=None):
+    print(f"After {round} rounds:")
+    top = [str(x % 10) for x in range(len(board[0]))]
+    print(" " + "".join(top))
+    for y in range(len(board)):
+        line = [str(y%10)]
+        extra = []
+        for x in range(len(board[0])):
+            if (x, y) in elves:
+                line.append("E")
+                extra.append(f"E({elves[(x,y)]})")
+            elif (x, y) in goblins:
+                line.append("G")
+                extra.append(f"G({goblins[(x, y)]})")
+            elif extras and (x, y) in extras:
+                line.append(str(extras[(x,y)] % 10))
+            else:
+                line.append(str(board[x][y]))
+
+        print("".join(line) + "   " + ",".join(extra))
 
 def get_valid_moves(board, pos):
     def _helper(result):
@@ -242,7 +264,7 @@ def get_reachable(board, start_square):
                 elif isinstance(v, Elf):
                     if not is_elf:
                         reachable.add(p)
-                elif v is not "#" and v not in painted:
+                elif v != "#" and v not in painted:
                     to_add.append(v)
                     full = False
         painted.update(to_add)
@@ -271,7 +293,7 @@ def get_closest(start_square, reachable):
                     pass
                 elif isinstance(v, Elf):
                     pass
-                elif v is not "#":
+                elif v != "#":
                     if p_board[v.pos[0]][v.pos[1]] is None:
                         p_board[v.pos[0]][v.pos[1]] = score + 1
                     elif score + 1 < p_board[v.pos[0]][v.pos[1]]:
@@ -314,7 +336,7 @@ def get_possible_paths(board, start, end):
                     pass
                 elif isinstance(v, Elf):
                     pass
-                elif v is not "#":
+                elif v != "#":
                     if p_board[v.pos[0]][v.pos[1]] is None:
                         p_board[v.pos[0]][v.pos[1]] = score + 1
                     elif score + 1 < p_board[v.pos[0]][v.pos[1]]:
@@ -419,7 +441,7 @@ def do_attack(board, square, is_elf):
             if weakest.hit_points < 1:
                 # Killed
                 # Comment out for part 1
-                raise ElfDeath("Oops")
+                # raise ElfDeath("Oops")
 
                 board[weakest.pos[0]][weakest.pos[1]].content = None
                 elves.remove(weakest)
@@ -485,7 +507,10 @@ def run_game(board, elf_power=3):
     count = 0
 
     while True:
-        # print_board(board)
+        gobs = {tuple(g.pos): g.hit_points for g in goblins}
+        elfs = {tuple(g.pos): g.hit_points for g in elves}
+
+        print_board_2(board, elfs, gobs, count)
         # for g in goblins:
         #     print("G({})".format(g.hit_points))
         # for e in elves:
@@ -511,8 +536,9 @@ def run_game(board, elf_power=3):
 
 
 # Part 1
-# create_board()
-# run_game(board)
+create_board()
+run_game(board)
+exit(0)
 
 # Part 2
 # Binary search
