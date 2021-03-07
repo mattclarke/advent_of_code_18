@@ -1,7 +1,7 @@
 # advent_of_code_18
 https://adventofcode.com/2018
 
-## Results
+## Results (December 2018)
 
 ![alt text](results.png)
 
