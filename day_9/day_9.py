@@ -26,12 +26,12 @@ def solve(part_2=False):
             curr = curr.next
         print(output)
 
-    for i in range(num_marbles):
+    for i in range(1, num_marbles + 1):
         player = i % num_players
         # print(player)
 
-        if (i + 1) % 23 == 0:
-            players[player] += i + 1
+        if i % 23 == 0:
+            players[player] += i
             for _ in range(7):
                 current = current.prev
             # Remove marble
@@ -43,7 +43,7 @@ def solve(part_2=False):
         else:
             # Insert the marble 1 clockwise
             current = current.next
-            new_marble = Marble(i + 1, current, current.next)
+            new_marble = Marble(i, current, current.next)
             current.next.prev = new_marble
             current.next = new_marble
             current = new_marble

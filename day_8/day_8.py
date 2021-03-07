@@ -2,7 +2,7 @@ with open("input.txt") as f:
     PUZZLE_INPUT = f.read()
 
 
-class node:
+class Node:
     def __init__(self, nc, nm, parent, num):
         self.name = str(num)
         self.num_children = nc
@@ -24,7 +24,7 @@ def process(n, i, num):
     if i >= len(data):
         raise Exception("Done!")
 
-    curr = node(data[i], data[i + 1], n, num)
+    curr = Node(data[i], data[i + 1], n, num)
     if n is not None:
         n.children.append(curr)
 

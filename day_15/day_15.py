@@ -1,36 +1,7 @@
 with open("input.txt") as f:
     PUZZLE_INPUT = f.read()
 
-
-raw_data_v1 = """
-#######
-#E..G.#
-#...#.#
-#.G.#G#
-#######
-"""
-
-raw_data_v2 = """
-#######
-#.E...#
-#.....#
-#...G.#
-#######
-"""
-
-raw_data_v3 = """
-#########
-#G..G..G#
-#.......#
-#.......#
-#G..E..G#
-#.......#
-#.......#
-#G..G..G#
-#########
-"""
-
-raw_data_v4 = """
+EXAMPLE_1 = """
 #######
 #.G...#
 #...EG#
@@ -40,7 +11,7 @@ raw_data_v4 = """
 #######
 """
 
-raw_data_v5 = """
+EXAMPLE_2 = """
 #######
 #G..#E#
 #E#E.E#
@@ -50,7 +21,7 @@ raw_data_v5 = """
 #######
 """
 
-raw_data_v6 = """
+EXAMPLE_3 = """
 #######
 #E..EG#
 #.#G.E#
@@ -60,7 +31,7 @@ raw_data_v6 = """
 #######
 """
 
-raw_data_v7 = """
+EXAMPLE_4 = """
 #######
 #E.G#.#
 #.#G..#
@@ -70,7 +41,7 @@ raw_data_v7 = """
 #######
 """
 
-raw_data_v8 = """
+EXAMPLE_5 = """
 #######
 #.E...#
 #.#..G#
@@ -80,7 +51,7 @@ raw_data_v8 = """
 #######
 """
 
-raw_data_v9 = """
+EXAMPLE_6 = """
 #########
 #G......#
 #.E.#...#
@@ -93,116 +64,16 @@ raw_data_v9 = """
 """
 
 
-raw_data = PUZZLE_INPUT
-
-
-class Square:
-    def __init__(self, pos, content=None):
-        self.content = content
-        self.pos = pos
-
-    def __str__(self):
-        if self.content is None:
-            return "."
-        elif isinstance(self.content, Goblin):
-            return "G"
-        elif isinstance(self.content, Elf):
-            return "E"
-        elif isinstance(self.content, Wall):
-            return "#"
-        else:
-            raise Exception("Content error!")
-
-
-class Goblin:
-    def __init__(self, pos):
-        self.pos = pos
-        self.moved = False
-        self.attack = 3
-        self.hit_points = 200
-
-
-class Elf:
-    def __init__(self, pos):
-        self.pos = pos
-        self.moved = False
-        self.attack = 3
-        self.hit_points = 200
-
-
-class Wall:
-    pass
-
-
-class ElfDeath(Exception):
-    pass
-
-
-max_x = 0
-max_y = 0
-
-# Quickly find dimenstions of board
-for line in raw_data.splitlines():
-    if not line:
-        continue
-    for x, c in enumerate(line):
-        max_x = max(len(line), max_x)
-    max_y += 1
-
-board = [[None for y in range(max_y)] for x in range(max_x)]
-elves = []
-goblins = []
-
-
-def create_board():
-    global board, elves, goblins
-
-    board = [[None for y in range(max_y)] for x in range(max_x)]
-    elves = []
-    goblins = []
-
-    y = 0
-
-    for line in raw_data.splitlines():
-        if not line:
-            continue
-        for x, c in enumerate(line):
-            content = None
-            if c == "#":
-                content = Wall()
-            elif c == "G":
-                content = Goblin([x, y])
-                goblins.append(content)
-            elif c == "E":
-                content = Elf([x, y])
-                elves.append(content)
-            board[x][y] = Square([x, y], content)
-        y += 1
-
-
-def print_board(board, moves=None):
-    for j in range(len(board[0])):
-        line = ""
-        for i in range(len(board)):
-            if moves is None:
-                line += "{}".format(str(board[i][j]))
-            else:
-                if board[i][j] in moves and board[i][j].content is None:
-                    line += "?"
-                else:
-                    line += "{}".format(str(board[i][j]))
-        print(line)
-    print("")
-
-
-def print_board_2(board, elves, goblins, round, extras=None):
+def print_board(grid, elves, goblins, round, extras=None):
     print(f"After {round} rounds:")
-    top = [str(x % 10) for x in range(len(board[0]))]
+    top = [str(x % 10) for x in range(len(grid[0]))]
     print(" " + "".join(top))
-    for y in range(len(board)):
-        line = [str(y%10)]
+
+    y = len(grid)
+    for y, row in enumerate(grid):
+        line = [str(y % 10)]
         extra = []
-        for x in range(len(board[0])):
+        for x in range(len(row)):
             if (x, y) in elves:
                 line.append("E")
                 extra.append(f"E({elves[(x,y)]})")
@@ -210,354 +81,285 @@ def print_board_2(board, elves, goblins, round, extras=None):
                 line.append("G")
                 extra.append(f"G({goblins[(x, y)]})")
             elif extras and (x, y) in extras:
-                line.append(str(extras[(x,y)] % 10))
+                line.append(str(extras[(x, y)] % 10))
             else:
-                line.append(str(board[x][y]))
+                line.append(row[x])
 
         print("".join(line) + "   " + ",".join(extra))
 
-def get_valid_moves(board, pos):
-    def _helper(result):
-        if result.content is not None:
-            if isinstance(result.content, Goblin):
-                return result.content
-            elif isinstance(result.content, Elf):
-                return result.content
+
+def process_input(starting_grid):
+    lines = starting_grid.strip().splitlines()
+    y = 0
+    grid = []
+    goblins = {}
+    elves = {}
+
+    for y, line in enumerate(lines):
+        row = []
+        for x, c in enumerate(line):
+            if c == "#" or c == ".":
+                row.append(c)
+            elif c == "E":
+                row.append(".")
+                elves[(x, y)] = 200
+            elif c == "G":
+                row.append(".")
+                goblins[(x, y)] = 200
             else:
-                return "#"
-        return result
+                assert False, "Something went badly wrong"
+        grid.append(row)
 
-    # Top, left, right, bottom
-    top = board[pos[0]][pos[1] - 1]
-    top = _helper(top)
-
-    left = board[pos[0] - 1][pos[1]]
-    left = _helper(left)
-
-    right = board[pos[0] + 1][pos[1]]
-    right = _helper(right)
-
-    bottom = board[pos[0]][pos[1] + 1]
-    bottom = _helper(bottom)
-
-    return [top, left, right, bottom]
+    return grid, elves, goblins
 
 
-def get_reachable(board, start_square):
-    if isinstance(start_square.content, Elf):
-        is_elf = True
-    else:
-        is_elf = False
+def calculate_move_order(elves, goblins):
+    order = []
+    for e in elves:
+        order.append((e, "E"))
+    for g in goblins:
+        order.append((g, "G"))
 
-    painted = {start_square}
-    reachable = set()
-    full = False
-    while not full:
-        full = True
-        to_add = []
-        for p in painted:
-            valid = get_valid_moves(board, p.pos)
-            for v in valid:
-                if isinstance(v, Goblin):
-                    if is_elf:
-                        reachable.add(p)
-                elif isinstance(v, Elf):
-                    if not is_elf:
-                        reachable.add(p)
-                elif v != "#" and v not in painted:
-                    to_add.append(v)
-                    full = False
-        painted.update(to_add)
-    return reachable
+    order.sort(key=lambda x: x[0][0])
+    order.sort(key=lambda x: x[0][1])
+    return order
 
 
-def get_closest(start_square, reachable):
-    if isinstance(start_square.content, Elf):
-        is_elf = True
-    else:
-        is_elf = False
+def find_closest_2(origin, grid, elves, goblins, possibles, debug=False):
+    queue = [(origin, 0)]
+    visited = {origin: 0}
 
-    p_board = [[None for y in range(max_y)] for x in range(max_x)]
-    p_board[start_square.pos[0]][start_square.pos[1]] = 0
+    while queue:
+        pos, distance = queue.pop(0)
 
-    painted = {start_square}
-    full = False
-    while not full:
-        full = True
-        to_add = []
-        for p in painted:
-            score = p_board[p.pos[0]][p.pos[1]]
-            valid = get_valid_moves(board, p.pos)
-            for v in valid:
-                if isinstance(v, Goblin):
-                    pass
-                elif isinstance(v, Elf):
-                    pass
-                elif v != "#":
-                    if p_board[v.pos[0]][v.pos[1]] is None:
-                        p_board[v.pos[0]][v.pos[1]] = score + 1
-                    elif score + 1 < p_board[v.pos[0]][v.pos[1]]:
-                        p_board[v.pos[0]][v.pos[1]] = score + 1
-                    else:
-                        continue
-                    to_add.append(v)
-                    full = False
-        painted.update(to_add)
-    # print_path_board(p_board)
-    closet = None
-    dist = float("inf")
-    for r in reachable:
-        if p_board[r.pos[0]][r.pos[1]] < dist:
-            closet = r
-            dist = p_board[r.pos[0]][r.pos[1]]
-        elif p_board[r.pos[0]][r.pos[1]] == dist:
-            # Choose based on reading order
-            if r.pos[1] < closet.pos[1]:
-                closet = r
-            elif r.pos[1] == closet.pos[1] and r.pos[0] < closet.pos[0]:
-                closet = r
-    return closet
+        for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+            npos = (pos[0] + x, pos[1] + y)
 
+            if grid[npos[1]][npos[0]] == "#":
+                continue
+            if npos in elves or npos in goblins:
+                continue
 
-def get_possible_paths(board, start, end):
-    p_board = [[None for y in range(max_y)] for x in range(max_x)]
-    p_board[end.pos[0]][end.pos[1]] = 0
+            if npos not in visited or distance + 1 < visited[npos]:
+                visited[npos] = distance + 1
+                queue.append((npos, distance + 1))
 
-    painted = {end}
-    full = False
-    while not full:
-        full = True
-        to_add = []
-        for p in painted:
-            score = p_board[p.pos[0]][p.pos[1]]
-            valid = get_valid_moves(board, p.pos)
-            for v in valid:
-                if isinstance(v, Goblin):
-                    pass
-                elif isinstance(v, Elf):
-                    pass
-                elif v != "#":
-                    if p_board[v.pos[0]][v.pos[1]] is None:
-                        p_board[v.pos[0]][v.pos[1]] = score + 1
-                    elif score + 1 < p_board[v.pos[0]][v.pos[1]]:
-                        p_board[v.pos[0]][v.pos[1]] = score + 1
-                    else:
-                        continue
-                    to_add.append(v)
-                    full = False
-        painted.update(to_add)
-    return p_board
+    if debug:
+        print_board(grid, elves, goblins, "debug", visited)
+
+    closest = []
+    lowest = 10000000
+
+    for poss in possibles:
+        if poss not in visited:
+            continue
+
+        dist = visited[poss]
+        if dist < lowest:
+            closest = [poss]
+            lowest = dist
+        elif dist == lowest:
+            closest.append(poss)
+
+    solutions = []
+    for close in closest:
+        queue = [close]
+        seen = set()
+
+        while queue:
+            pos = queue.pop(0)
+            for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+                npos = (pos[0] + x, pos[1] + y)
+                if npos == origin:
+                    solutions.append(pos)
+                    continue
+
+                if npos in seen:
+                    continue
+
+                if npos in visited and visited[npos] < visited[pos]:
+                    seen.add(npos)
+                    queue.append(npos)
+    return solutions
 
 
-def print_path_board(board):
-    for j in range(len(board[0])):
-        line = ""
-        for i in range(len(board)):
-            if board[i][j] is None:
-                line += "    "
-            else:
-                if len(str(board[i][j])) == 1:
-                    line += " {}  ".format(str(board[i][j]))
-                else:
-                    line += " {} ".format(str(board[i][j]))
-        print(line)
+def find_closest(origin, grid, elves, goblins, possibles):
+    queue = [[origin]]
+    solutions = []
+    lowest = 1000000000
+    visited = {origin: 0}
+
+    while queue:
+        route = queue.pop(0)
+        pos = route[~0]
+
+        if len(route) > lowest:
+            continue
+
+        for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+            npos = (pos[0] + x, pos[1] + y)
+            # TODO: this doesn't work!
+            if npos in visited and len(route) + 1 > visited[npos]:
+                # Taken longer to get here so no point checking
+                continue
+            if grid[npos[1]][npos[0]] == "#":
+                continue
+            if npos in elves or npos in goblins:
+                continue
+            new_route = route + [npos]
+            shortest = visited.get(npos, 10000000)
+            visited[npos] = min(shortest, len(new_route))
+            if npos in possibles:
+                if len(new_route) > lowest:
+                    continue
+
+                if len(new_route) < lowest:
+                    solutions.clear()
+                # just need the first step
+                solutions.append((new_route[1]))
+                lowest = min(lowest, len(new_route))
+                continue
+            queue.append(new_route)
+    return solutions
 
 
-def pick_direction(paths, elf_sq):
-    lowest = float("inf")
-    direction = None
-    up = paths[elf_sq.pos[0]][elf_sq.pos[1] - 1]
-    if up is not None:
-        lowest = up
-        direction = (0, -1)
-
-    left = paths[elf_sq.pos[0] - 1][elf_sq.pos[1]]
-    if left is not None:
-        if left < lowest:
-            lowest = left
-            direction = (-1, 0)
-
-    right = paths[elf_sq.pos[0] + 1][elf_sq.pos[1]]
-    if right is not None:
-        if right < lowest:
-            lowest = right
-            direction = (1, 0)
-
-    down = paths[elf_sq.pos[0]][elf_sq.pos[1] + 1]
-    if down is not None:
-        if down < lowest:
-            lowest = down
-            direction = (0, 1)
-
-    if direction is None:
-        raise Exception("Something up with direction")
-
-    return direction
+def get_adjacent(pos, enemy):
+    result = []
+    for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+        npos = (pos[0] + x, pos[1] + y)
+        if npos in enemy:
+            result.append(npos)
+    return result
 
 
-def do_move(board, elf_sq, direction):
-    new_sq = board[elf_sq.pos[0] + direction[0]][elf_sq.pos[1] + direction[1]]
-    new_sq.content = elf_sq.content
-    elf_sq.content = None
-    new_sq.content.pos = new_sq.pos
-    new_sq.content.moved = True
-    return new_sq
+def solve(starting_grid, elves_power=3):
+    grid, elves, goblins = process_input(starting_grid)
+    # print_board(grid, elves, goblins, 0)
+    elves_killed = 0
+    i = 0
+    while True:
+        round_finished = True
+        order = calculate_move_order(elves, goblins)
+        for pos, race in order:
+            if race == "E" and pos in elves:
+                adjacent = get_adjacent(pos, goblins)
+                if not adjacent:
+                    possible_spaces = gross_possibles(elves, goblins, grid, True)
+                    possible_routes = find_closest_2(
+                        pos, grid, elves, goblins, possible_spaces
+                    )
+                    possible_routes.sort(key=lambda x: x[0])
+                    possible_routes.sort(key=lambda x: x[1])
+                    if possible_routes:
+                        choice = possible_routes[0]
+
+                        hp = elves[pos]
+                        del elves[pos]
+                        elves[choice] = hp
+                        adjacent = get_adjacent(choice, goblins)
+
+                if adjacent:
+                    do_attack(adjacent, goblins, elves_power)
+            elif race == "G" and pos in goblins:
+                adjacent = get_adjacent(pos, elves)
+                if not adjacent:
+                    possible_spaces = gross_possibles(elves, goblins, grid, False)
+                    possible_routes = find_closest_2(
+                        pos, grid, elves, goblins, possible_spaces
+                    )
+                    possible_routes.sort(key=lambda x: x[0])
+                    possible_routes.sort(key=lambda x: x[1])
+                    if possible_routes:
+                        choice = possible_routes[0]
+
+                        hp = goblins[pos]
+                        del goblins[pos]
+                        goblins[choice] = hp
+                        adjacent = get_adjacent(choice, elves)
+
+                if adjacent:
+                    elf_killed = do_attack(adjacent, elves, 3)
+                    if elf_killed:
+                        # print("Elf killed")
+                        elves_killed += 1
+
+            if not elves or not goblins:
+                if (pos, race) != order[~0]:
+                    # Round not finished
+                    round_finished = False
+                break
+        if round_finished:
+            i += 1
+        # print_board(grid, elves, goblins, i)
+        if not elves or not goblins:
+            break
+    winners = goblins if goblins else elves
+    # print(f"Elves killed = {elves_killed}")
+    return i * sum(winners.values()), elves_killed
 
 
-def do_attack(board, square, is_elf):
-    moves = get_valid_moves(board, square.pos)
-    if is_elf:
-        # Take a swing at a goblin if possible
-        opponents = [g for g in moves if isinstance(g, Goblin)]
-        if opponents:
-            weakest = opponents[0]
-            hp = opponents[0].hit_points
-            for op in opponents:
-                if op.hit_points < hp:
-                    weakest = op
-                    hp = op.hit_points
+def do_attack(adjacent, enemies, damage):
+    lowest = 100000
+    targets = []
+    for enemy in adjacent:
+        if enemies[enemy] < lowest:
+            lowest = enemies[enemy]
+            targets = [enemy]
+        elif enemies[enemy] == lowest:
+            targets.append(enemy)
+    # Sort choices based on reading order
+    targets.sort(key=lambda x: x[0])
+    targets.sort(key=lambda x: x[1])
+    target = targets[0]
 
-            # Hit the weakest
-            weakest.hit_points -= square.content.attack
-            if weakest.hit_points < 1:
-                # Killed
-                board[weakest.pos[0]][weakest.pos[1]].content = None
-                goblins.remove(weakest)
-
-            return True
-    elif not is_elf:
-        # Take a swing at an elf
-        opponents = [e for e in moves if isinstance(e, Elf)]
-        if opponents:
-            weakest = opponents[0]
-            hp = opponents[0].hit_points
-            for op in opponents:
-                if op.hit_points < hp:
-                    weakest = op
-                    hp = op.hit_points
-
-            # Hit the weakest
-            weakest.hit_points -= square.content.attack
-            if weakest.hit_points < 1:
-                # Killed
-                # Comment out for part 1
-                # raise ElfDeath("Oops")
-
-                board[weakest.pos[0]][weakest.pos[1]].content = None
-                elves.remove(weakest)
-
-            return True
-
+    enemies[target] -= damage
+    if enemies[target] <= 0:
+        del enemies[target]
+        return True
     return False
 
 
-def do_action(board, square, is_elf):
-    # Check for hittable
-    hit = do_attack(board, square, is_elf)
-    if hit:
-        return
+def gross_possibles(elves, goblins, grid, is_elves):
+    enemy = goblins if is_elves else elves
 
-    reachable = get_reachable(board, square)
-    # print_board(board, reachable)
-
-    if not reachable:
-        return
-
-    closest = get_closest(square, reachable)
-    # print_board(board, [closest])
-
-    paths = get_possible_paths(board, square, closest)
-    # print_path_board(paths)
-
-    direction = pick_direction(paths, square)
-    # print(direction)
-
-    square = do_move(board, square, direction)
-    # print_board(board)
-
-    # Check for hittable
-    hit = do_attack(board, square, is_elf)
+    possible_spaces = set()
+    for pos, g in enemy.items():
+        for x, y in [(-1, 0), (0, -1), (1, 0), (0, 1)]:
+            npos = (pos[0] + x, pos[1] + y)
+            if npos[0] >= len(grid[0]) or npos[0] <= 0:
+                continue
+            if npos[1] >= len(grid) or npos[1] <= 0:
+                continue
+            if grid[npos[1]][npos[0]] == "#":
+                continue
+            if npos in elves or npos in goblins:
+                continue
+            possible_spaces.add(npos)
+    return possible_spaces
 
 
-def do_turn(board):
-    completed = True
-    for j in range(max_y):
-        for i in range(max_x):
-            if isinstance(board[i][j].content, Elf) or isinstance(
-                board[i][j].content, Goblin
-            ):
-                if not board[i][j].content.moved:
-                    if len(elves) == 0 or len(goblins) == 0:
-                        completed = False
-                    do_action(board, board[i][j], isinstance(board[i][j].content, Elf))
-                    # print_board(board)
+assert solve(EXAMPLE_1)[0] == 27730
+assert solve(EXAMPLE_2)[0] == 36334
+assert solve(EXAMPLE_3)[0] == 39514
+assert solve(EXAMPLE_4)[0] == 27755
+assert solve(EXAMPLE_5)[0] == 28944
+assert solve(EXAMPLE_6)[0] == 18740
 
-    for g in goblins:
-        g.moved = False
-    for e in elves:
-        e.moved = False
-    return completed
+# 243390
+print(f"Part 1: {solve(PUZZLE_INPUT)[0]}")
 
+assert solve(EXAMPLE_1, 15) == (4988, 0)
+assert solve(EXAMPLE_3, 4) == (31284, 0)
+assert solve(EXAMPLE_4, 15) == (3478, 0)
+assert solve(EXAMPLE_5, 12) == (6474, 0)
+assert solve(EXAMPLE_6, 34) == (1140, 0)
 
-# Start game
-def run_game(board, elf_power=3):
-    for e in elves:
-        e.attack = elf_power
+damage = 4
 
-    count = 0
-
-    while True:
-        gobs = {tuple(g.pos): g.hit_points for g in goblins}
-        elfs = {tuple(g.pos): g.hit_points for g in elves}
-
-        print_board_2(board, elfs, gobs, count)
-        # for g in goblins:
-        #     print("G({})".format(g.hit_points))
-        # for e in elves:
-        #     print("E({})".format(e.hit_points))
-        if do_turn(board):
-            count += 1
-
-        # Check to see if finished
-        if len(elves) == 0 or len(goblins) == 0:
-            print_board(board)
-            break
-
-    print(count)
-
-    total_hp = 0
-    for e in elves:
-        total_hp += e.hit_points
-    for g in goblins:
-        total_hp += g.hit_points
-
-    print(total_hp)
-    print(count * total_hp)
-
-
-# Part 1
-create_board()
-run_game(board)
-exit(0)
-
-# Part 2
-# Binary search
-low = 0
-high = 50
-
-while low != high and low + 1 != high:
-    passed = True
-    aim = low + (high - low) // 2
-    print(f"Aim: {aim}")
-
-    try:
-        create_board()
-        run_game(board, aim)
-    except ElfDeath as err:
-        print("FAIL")
-        low = aim
-        continue
-    high = aim
-
-# Answer is 48,790 but that is rejected
-# I have confirmed this will the online version https://lamperi.name/aoc/
+while True:
+    score, deaths = solve(PUZZLE_INPUT, damage)
+    if deaths == 0:
+        # 59886
+        print(f"Part 2: {score}")
+        break
+    damage += 1

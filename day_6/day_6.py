@@ -79,6 +79,7 @@ for k, v in results.items():
 # 6047
 print(f"Part 1: {most}")
 
+
 # Part 2
 def get_total_distance(a, coords):
     total = 0

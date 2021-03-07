@@ -65,8 +65,8 @@ for d, m in data:
 
 
 def print_schedule(sleeps, guards):
-    for k, v in sleep_records.items():
-        line = "{}-{} #{} ".format(k.month, k.day, guard_records[k])
+    for k, v in sleeps.items():
+        line = "{}-{} #{} ".format(k.month, k.day, guards[k])
         asleep = False
         for m in range(60):
             if m in v:

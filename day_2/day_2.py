@@ -11,13 +11,10 @@ for id in PUZZLE_INPUT.splitlines():
     thrice = 0
 
     for c in id:
-        if c not in counts:
-            counts[c] = 1
-        elif counts[c] == 1:
-            counts[c] += 1
+        counts[c] = counts.get(c, 0) + 1
+        if counts[c] == 2:
             twice += 1
-        elif counts[c] == 2:
-            counts[c] += 1
+        elif counts[c] == 3:
             twice -= 1
             thrice += 1
 
@@ -47,7 +44,7 @@ ids = PUZZLE_INPUT.splitlines()
 result = None
 
 for i, v1 in enumerate(ids):
-    for v2 in ids[i + 1 :]:
+    for v2 in ids[i + 1:]:
         ans = compare_ids(v1, v2)
         if ans[0] == 1:
             result = ans[1]

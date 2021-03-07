@@ -76,7 +76,7 @@ while True:
     if len(opts) == 0:
         break
 
-    # Sort
+    # Sort as we do the lowest letter first
     opts.sort()
     # print("{} from {}".format(opts[0], opts))
     nodes[opts[0]].done = True

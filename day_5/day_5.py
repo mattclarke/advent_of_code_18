@@ -12,7 +12,7 @@ def react(polymer):
             or polymer[i].isupper()
             and polymer[i + 1].islower()
         ):
-            polymer = polymer[:i] + polymer[i + 2 :]
+            polymer = polymer[:i] + polymer[i + 2:]
             if i > 0:
                 i -= 1
         else:
