@@ -37,8 +37,15 @@ EXAMPLE_3 = "^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$"
 assert len(solve(EXAMPLE_3)) == 18
 
 result = solve(PUZZLE_INPUT)
-# 3788
+# 3788 - I think this is a fluke
 print(f"Part 1: {len(result)}")
+
+directions = {
+    "N": (0, 1),
+    "E": (1, 0),
+    "S": (0, -1),
+    "W": (-1, 0),
+}
 
 
 class Node:
@@ -99,7 +106,6 @@ def build_graph(input_str):
 
     head = Node("^")
     _build([head])
-    print("Yo!")
     return head
 
 
@@ -170,3 +176,14 @@ while str(node) != "^":
 
 print(result, len(result))
 print("".join(route[1:]))
+
+count = 0
+for k,v in scores.items():
+    if str(k) == "$":
+        continue
+
+    if v[1] > 1000:
+        count += 1
+
+# 9557 is too high
+print(count)
