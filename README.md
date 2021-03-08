@@ -12,11 +12,18 @@ for, say, elf damage rate 13, but to have deaths for all the numbers lower and h
  goblins sooner than if elf had a lower damage rate, so would get extra rounds of multiple damage from the group.
 - Note, I rewrote the whole thing because I incorrectly thought the original was broken - the new one is much faster at least :)
 
+### Day 20 (revisited in 2021)
+- I must have not read this properly originally, as I thought it was more complicated than it was. Basically its just using a
+stack where "(" is push on, "|" is peek and ")" is pop.
+- Then it is a case of keeping track of which room you are in and the distance to get to it. If you revisit a room then update
+the distance if the new distance is lower.
+- Just "reducing" the regex gave the correct answer to part 1, but it might be a fluke, and it certainly doesn't help with Part 2
+
+
 ## TODO
 
 - Day 18 part 2 is super slow
 - Day 19 work out what is going on
-- Day 20
 - Day 22 part 2
 - Day 23 part 2
 - Day 24 is slow
