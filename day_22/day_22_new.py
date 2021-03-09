@@ -1,11 +1,14 @@
 # Input data
+from enum import Enum
+
 DEPTH = 11394
 TARGET = (7, 701)
-EXTRA = 10
+EXTRA = 40
 
-# Example = 114
-DEPTH = 510
-TARGET = (10, 10)
+# Example => part 1 = 114, part 2 = 45
+# DEPTH = 510
+# TARGET = (10, 10)
+# EXTRA = 10
 
 MODULO = 20183
 
@@ -64,4 +67,84 @@ def calc_risk():
 # 5637
 print(f"Part 1: {calc_risk()}")
 
+
 # Part 2
+class Equip(Enum):
+    TORCH = 0
+    CLIMB = 1
+    NEITHER = 2
+
+
+def can_switch_to(terrain):
+    if terrain == 0:
+        # Rocky
+        return {Equip.CLIMB, Equip.TORCH}
+    if terrain == 1:
+        # Wet
+        return {Equip.CLIMB, Equip.NEITHER}
+    if terrain == 2:
+        # Narrow
+        return {Equip.TORCH, Equip.NEITHER}
+
+
+def can_enter(terrain, equipped):
+    if terrain == 0 and equipped == Equip.NEITHER:
+        # Rocky .
+        return False
+    if terrain == 1 and equipped == Equip.TORCH:
+        # Wet =
+        return False
+    if terrain == 2 and equipped == Equip.CLIMB:
+        # Narrow |
+        return False
+    return True
+
+
+cost_to_change = 7
+queue = [((0, 0), Equip.TORCH, 0)]
+distances = {
+}
+
+RESULTS = []
+
+
+while queue:
+    position, equipped, dist = queue.pop(0)
+    print(position)
+    if position == TARGET:
+        if equipped != Equip.TORCH:
+            dist += cost_to_change
+        RESULTS.append(dist)
+        continue
+
+    if (position, equipped) in distances:
+        if distances[(position, equipped)] <= dist:
+            # Back-tracking
+            continue
+    distances[(position, equipped)] = dist
+
+    if position not in erosion_levels:
+        # raise Exception("bounds")
+        continue
+
+    curr_el = erosion_levels[position] % 3
+
+    for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+        npos = (position[0] + x, position[1] + y)
+        if npos[0] < 0 or npos[1] < 0:
+            # Out of bounds
+            continue
+        if npos not in erosion_levels:
+            # raise Exception("bounds")
+            continue
+        el = erosion_levels[npos] % 3
+        if can_enter(el, equipped):
+            queue.append((npos, equipped, dist + 1))
+        else:
+            options = can_switch_to(el)
+            options = options.intersection(can_switch_to(curr_el))
+            for option in options:
+                queue.append((npos, option, dist + cost_to_change + 1))
+
+# 969
+print(min(RESULTS))

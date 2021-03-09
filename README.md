@@ -19,6 +19,10 @@ stack where "(" is push on, "|" is peek and ")" is pop.
 the distance if the new distance is lower.
 - Just "reducing" the regex gave the correct answer to part 1, but it might be a fluke, and it certainly doesn't help with Part 2
 
+### Day 22 (revisited in 2021)
+- First attempt is shortest path, takes a while...
+
+
 
 ## TODO
 

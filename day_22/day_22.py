@@ -1,319 +1,150 @@
-
 # Input data
-depth = 11394
-target = (7, 701)
+from enum import Enum
 
-board = [[None for y in range(target[1] + 10)] for x in range(target[0] + 10)]
+DEPTH = 11394
+TARGET = (7, 701)
+EXTRA = 40
+
+# Example => part 1 = 114, part 2 = 45
+# DEPTH = 510
+# TARGET = (10, 10)
+# EXTRA = 10
+
+MODULO = 20183
+
+erosion_levels = {
+
+}
+
+# Calculate erosion levels
+for y in range(0, TARGET[1] + EXTRA):
+    for x in range(0, TARGET[0] + EXTRA):
+        if (x, y) == TARGET:
+            gi = 0
+        elif x == 0:
+            gi = y * 48271
+        elif y == 0:
+            gi = x * 16807
+        else:
+            gi = erosion_levels[(x - 1, y)] * erosion_levels[(x, y - 1)]
+        el = (gi + DEPTH) % MODULO
+        erosion_levels[(x, y)] = el
 
 
-def calculate_index(x, y, board):
-    if x == 0 and y == 0:
-        return 0
-    elif (x, y) == target:
-        return 0
-    elif y == 0:
-        return x * 16807
-    elif x == 0:
-        return y * 48271
-    else:
-        return board[x - 1][y] * board[x][y - 1]
+def print_layout():
+    for y in range(TARGET[1] + EXTRA):
+        line = []
+        for x in range(TARGET[0] + EXTRA):
+            if (x, y) == (0,0):
+                line.append("M")
+                continue
+            if (x,y) == TARGET:
+                line.append("T")
+                continue
 
-
-def calculate_level(gi):
-    return (gi + depth) % 20183
-
-
-def get_type(level):
-    if level % 3 == 0:
-        return "."
-    elif level % 3 == 1:
-        return "="
-    elif level % 3 == 2:
-        return "|"
-
-
-def draw_board(board):
-    total = 0
-    for y in range(len(board[0])):
-        line = ""
-        for x in range(len(board)):
-            if (x, y) == (0, 0):
-                line += "M"
-            elif (x, y) == target:
-                line += "T"
+            el = erosion_levels.get((x, y), 0)
+            t = el % 3
+            if t == 0:
+                line.append(".")
+            elif t == 1:
+                line.append("=")
+            elif t == 2:
+                line.append("|")
             else:
-                line += get_type(board[x][y])
-            if x <= target[0] and y <= target[1]:
-                total += board[x][y] % 3
-        print(line)
-    print(total)
+                assert False
+        print("".join(line))
 
 
-def populate_board(board):
-    for y in range(len(board[0])):
-        for x in range(len(board)):
-            index = calculate_index(x, y, board)
-            level = calculate_level(index)
-            board[x][y] = level
-    return board
+def calc_risk():
+    total = 0
+    for y in range(TARGET[1]+1):
+        for x in range(TARGET[0]+1):
+            el = erosion_levels.get((x, y), 0)
+            total += el % 3
+    return total
 
 
-board = populate_board(board)
-draw_board(board)
+# 5637
+print(f"Part 1: {calc_risk()}")
+
 
 # Part 2
-# if rocky must use gear (2) or torch (1)
-# if wet must use gear or nothing (0)
-# if narrow must use torch or nothing
-# Each step takes 1
-# Switching takes 7
-# Starts with torch
-# At target must switch to torch
-NOTHING = 0
-TORCH = 1
-GEAR = 2
-
-height = target[1] + 10
-width = target[0] + 50
-
-board = [[None for y in range(height)] for x in range(width)]
-route_board = [[None for y in range(height)] for x in range(width)]
-
-board = populate_board(board)
-# Convert board to type
-for y in range(height):
-    for x in range(width):
-        board[x][y] = get_type(board[x][y])
-
-# for y in range(height):
-#     line = ""
-#     for x in range(width):
-#         line += board[x][y]
-#     print(line)
+class Equip(Enum):
+    TORCH = 0
+    CLIMB = 1
+    NEITHER = 2
 
 
-# Do a test run to get a "maximum"
-master_route_board = [[[None, None] for y in range(height)] for x in range(width)]
-
-equipped = TORCH
-count = 0
-x = 0
-y = 0
-
-# Move to middle x
-for i in range(target[0] // 2):
-    master_route_board[x][y] = [count, equipped]
-    next_sq = board[x + 1][y]
-    if next_sq == ".":
-        if equipped == NOTHING:
-            equipped = TORCH
-            count += 7
-    elif next_sq == "=":
-        if equipped == TORCH:
-            equipped = GEAR
-            count += 7
-    elif next_sq == "|":
-        if equipped == GEAR:
-            equipped = TORCH
-            count += 7
-    else:
-        raise Exception("FFS!")
-
-    x += 1
-    count += 1
-
-# Move down until level with target
-for i in range(target[1]):
-    master_route_board[x][y] = [count, equipped]
-    next_sq = board[x][y + 1]
-    if next_sq == ".":
-        if equipped == NOTHING:
-            equipped = TORCH
-            count += 7
-    elif next_sq == "=":
-        if equipped == TORCH:
-            equipped = GEAR
-            count += 7
-    elif next_sq == "|":
-        if equipped == GEAR:
-            equipped = TORCH
-            count += 7
-    else:
-        raise Exception("FFS!")
-
-    y += 1
-    count += 1
-
-# Move right to target
-for i in range(target[0]):
-    if x < target[0]:
-        master_route_board[x][y] = [count, equipped]
-        next_sq = board[x + 1][y]
-        if next_sq == ".":
-            if equipped == NOTHING:
-                equipped = TORCH
-                count += 7
-        elif next_sq == "=":
-            if equipped == TORCH:
-                equipped = GEAR
-                count += 7
-        elif next_sq == "|":
-            if equipped == GEAR:
-                equipped = TORCH
-                count += 7
-        else:
-            raise Exception("FFS!")
-
-        x += 1
-        count += 1
-
-# Switch to torch
-if (x, y) == target:
-    if equipped != TORCH:
-        count += 7
-    master_route_board[x][y] = [count, equipped]
+def can_switch_to(terrain):
+    if terrain == 0:
+        # Rocky
+        return {Equip.CLIMB, Equip.TORCH}
+    if terrain == 1:
+        # Wet
+        return {Equip.CLIMB, Equip.NEITHER}
+    if terrain == 2:
+        # Narrow
+        return {Equip.TORCH, Equip.NEITHER}
 
 
-best_case = master_route_board[x][y][0]
+def can_enter(terrain, equipped):
+    if terrain == 0 and equipped == Equip.NEITHER:
+        # Rocky .
+        return False
+    if terrain == 1 and equipped == Equip.TORCH:
+        # Wet =
+        return False
+    if terrain == 2 and equipped == Equip.CLIMB:
+        # Narrow |
+        return False
+    return True
 
 
-def print_route(route_board):
-    for y in range(height):
-        line = ""
-        for x in range(width):
-            if (x, y) == target:
-                line += " {}  ".format("T")
-            elif route_board[x][y][0] is None:
-                line += " {}  ".format("#")
-            elif route_board[x][y][0] < 10:
-                line += " {}  ".format(route_board[x][y][0])
-            else:
-                line += " {} ".format(route_board[x][y][0])
-        print(line)
+cost_to_change = 7
+queue = [((0, 0), Equip.TORCH, 0)]
+distances = {
+}
+
+RESULTS = []
 
 
-print_route(master_route_board)
-
-# Try a random walk
-import random
-
-
-def pick_tool(choices):
-    i = random.randint(0, len(choices) - 1)
-    return choices[i]
-
-
-# master_route_board = [[[None, None] for y in range(height)] for x in range(width)]
-
-for _ in range(100):
-    x = 0
-    y = 0
-    count = 0
-    equipped = TORCH
-
-    route_board = [[[None, None] for y in range(height)] for x in range(width)]
-
-    try:
-        while (x, y) != target:
-            route_board[x][y] = [count, equipped]
-            if (
-                master_route_board[x][y][0] is None
-                or master_route_board[x][y][0] > count
-            ):
-                master_route_board[x][y] = [count, equipped]
-            elif master_route_board[x][y][0] < count:
-                count = master_route_board[x][y][0]
-                equipped = master_route_board[x][y][1]
-
-            # Get options
-            options = []
-            if x > 0 and route_board[x - 1][y][0] is None:
-                # Biase towards target
-                if x > target[0]:
-                    options.append((x - 1, y))
-                # Biase to terrain
-                # if board[x - 1][y] == "." and equipped in [TORCH, GEAR]:
-                #     options.append((x - 1, y))
-                # elif board[x - 1][y] == "=" and equipped in [NOTHING, GEAR]:
-                #     options.append((x - 1, y))
-                # elif board[x - 1][y] == "|" and equipped in [NOTHING, TORCH]:
-                #     options.append((x - 1, y))
-                options.append((x - 1, y))
-            if y > 0 and route_board[x][y - 1][0] is None:
-                if x == 0:
-                    # Don't go up
-                    pass
-                else:
-                    if y > target[1]:
-                        options.append((x, y - 1))
-                    # if board[x][y - 1] == "." and equipped in [TORCH, GEAR]:
-                    #     options.append((x, y - 1))
-                    # elif board[x][y - 1] == "=" and equipped in [NOTHING, GEAR]:
-                    #     options.append((x, y - 1))
-                    # elif board[x][y - 1] == "|" and equipped in [NOTHING, TORCH]:
-                    #     options.append((x, y - 1))
-                    options.append((x, y - 1))
-            if route_board[x + 1][y][0] is None:
-                if x < target[0]:
-                    options.append((x + 1, y))
-                # if board[x + 1][y] == "." and equipped in [TORCH, GEAR]:
-                #     options.append((x + 1, y))
-                # elif board[x + 1][y] == "=" and equipped in [NOTHING, GEAR]:
-                #     options.append((x + 1, y))
-                # elif board[x + 1][y] == "|" and equipped in [NOTHING, TORCH]:
-                #     options.append((x + 1, y))
-                options.append((x + 1, y))
-            if route_board[x][y + 1][0] is None:
-                if y < target[1]:
-                    options.append((x, y + 1))
-                    options.append((x, y + 1))
-                    options.append((x, y + 1))
-                # if board[x][y + 1] == "." and equipped in [TORCH, GEAR]:
-                #     options.append((x, y + 1))
-                # elif board[x][y + 1] == "=" and equipped in [NOTHING, GEAR]:
-                #     options.append((x, y + 1))
-                # elif board[x][y + 1] == "|" and equipped in [NOTHING, TORCH]:
-                #     options.append((x, y + 1))
-                options.append((x, y + 1))
-            if len(options) == 0:
-                # Hit dead end
-                # print_route(route_board)
-                raise Exception("Deadend")
-            i = random.randint(0, len(options) - 1)
-
-            x, y = options[i]
-            next_sq = board[x][y]
-            if next_sq == ".":
-                if equipped == NOTHING:
-                    equipped = pick_tool([TORCH, GEAR])
-                    count += 7
-            elif next_sq == "=":
-                if equipped == TORCH:
-                    equipped = pick_tool([NOTHING, GEAR])
-                    count += 7
-            elif next_sq == "|":
-                if equipped == GEAR:
-                    equipped = pick_tool([NOTHING, TORCH])
-                    count += 7
-            else:
-                raise Exception("FFS!")
-
-            count += 1
-
-            if count > best_case:
-                raise Exception("Getting worse")
-    except Exception as err:
-        # print(err)
+while queue:
+    position, equipped, dist = queue.pop(0)
+    print(position)
+    if position == TARGET:
+        if equipped != Equip.TORCH:
+            dist += cost_to_change
+        RESULTS.append(dist)
         continue
 
-    if (x, y) == target:
-        if equipped != TORCH:
-            count += 7
-            route_board[x][y][0] = count
+    if (position, equipped) in distances:
+        if distances[(position, equipped)] <= dist:
+            # Back-tracking
+            continue
+    distances[(position, equipped)] = dist
 
-    if count < best_case:
-        print_route(route_board)
-        best_case = count
-        print("Best is", best_case)
+    if position not in erosion_levels:
+        # raise Exception("bounds")
+        continue
 
-print_route(master_route_board)
+    curr_el = erosion_levels[position] % 3
+
+    for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+        npos = (position[0] + x, position[1] + y)
+        if npos[0] < 0 or npos[1] < 0:
+            # Out of bounds
+            continue
+        if npos not in erosion_levels:
+            # raise Exception("bounds")
+            continue
+        el = erosion_levels[npos] % 3
+        if can_enter(el, equipped):
+            queue.append((npos, equipped, dist + 1))
+        else:
+            options = can_switch_to(el)
+            options = options.intersection(can_switch_to(curr_el))
+            for option in options:
+                queue.append((npos, option, dist + cost_to_change + 1))
+
+# 969
+print(min(RESULTS))
