@@ -20,19 +20,16 @@ the distance if the new distance is lower.
 - Just "reducing" the regex gave the correct answer to part 1, but it might be a fluke, and it certainly doesn't help with Part 2
 
 ### Day 22 (revisited in 2021)
-- First attempt is shortest path, takes a while...
+- First attempt is shortest path, takes a long while though...
 
+### Day 23 (revisited in 2021)
+- Struggled with a few ideas, then discussed with my wife and we came up with a sort of binary search. Failed to implement it
+successfully, so looked at the discussion on Reddit. Basically ended up copying this one: https://github.com/fhinkel/AdventOfCode2018/blob/master/day23.js
 
-
-## TODO
-
+# TODO?
+- Day 13 is a bit slow
 - Day 18 part 2 is super slow
 - Day 19 work out what is going on
-- Day 22 part 2
-- Day 23 part 2
+- Day 22 part 2 is very slow
 - Day 24 is slow
-
-# TODO perhaps?
-- Go through and tidy up as most solutions are confusing to follow
-- Day 13 is a bit slow
 
