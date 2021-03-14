@@ -12,6 +12,9 @@ for, say, elf damage rate 13, but to have deaths for all the numbers lower and h
  goblins sooner than if elf had a lower damage rate, so would get extra rounds of multiple damage from the group.
 - Note, I rewrote the whole thing because I incorrectly thought the original was broken - the new one is much faster at least :)
 
+### Day 18 (revisited in 2021)
+- After ~600 minutes the patterns start repeating, so it is possible to skip ahead for massive time savings!
+
 ### Day 20 (revisited in 2021)
 - I must have not read this properly originally, as I thought it was more complicated than it was. Basically its just using a
 stack where "(" is push on, "|" is peek and ")" is pop.
@@ -34,6 +37,5 @@ eventually make it to the front of the queue.
 - I'm not planning to do this ;)
 
 # TODO?
-- Day 13 is a bit slow
-- Day 18 part 2 is super slow
+- Day 13 is a bit slow (~25 seconds with PyPy)
 - Day 19 work out what is going on
