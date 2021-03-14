@@ -25,6 +25,11 @@ the distance if the new distance is lower.
 ### Day 23 (revisited in 2021)
 - Struggled with a few ideas, then discussed with my wife and we came up with a sort of binary search. Failed to implement it
 successfully, so looked at the discussion on Reddit. Basically ended up copying this one: https://github.com/fhinkel/AdventOfCode2018/blob/master/day23.js
+- This method would fail if, say, one had 10 non-overlapping bots in one grid and 9 overlapping bots in another grid because
+it would choose the grid with 10 as the best solution for the next iteration.
+- The solution to this would be to not throw away the other grid but put all grids in a queue/heap which is sorted by number of bots
+(high to low )and then by grid size (low to high). Then all likely candidates will eventually make it to the front of the queue
+- I'm not planning to do this ;)
 
 # TODO?
 - Day 13 is a bit slow
