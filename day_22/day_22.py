@@ -1,4 +1,5 @@
 # Input data
+import heapq
 from enum import Enum
 
 DEPTH = 11394
@@ -74,6 +75,9 @@ class Equip(Enum):
     CLIMB = 1
     NEITHER = 2
 
+    def __lt__(self, other):
+        return self.value < other.value
+
 
 def can_switch_to(terrain):
     if terrain == 0:
@@ -101,16 +105,18 @@ def can_enter(terrain, equipped):
 
 
 cost_to_change = 7
-queue = [((0, 0), Equip.TORCH, 0)]
+# dist/time, x, y, item
+heap = [(0, 0, 0, Equip.TORCH)]
 distances = {
 }
 
 RESULTS = []
 
 
-while queue:
-    position, equipped, dist = queue.pop(0)
-    print(position)
+while heap:
+    dist, xpos, ypos, equipped = heapq.heappop(heap)
+    position = (xpos, ypos)
+
     if position == TARGET:
         if equipped != Equip.TORCH:
             dist += cost_to_change
@@ -139,12 +145,12 @@ while queue:
             continue
         el = erosion_levels[npos] % 3
         if can_enter(el, equipped):
-            queue.append((npos, equipped, dist + 1))
+            heapq.heappush(heap, (dist + 1, npos[0], npos[1], equipped))
         else:
             options = can_switch_to(el)
             options = options.intersection(can_switch_to(curr_el))
             for option in options:
-                queue.append((npos, option, dist + cost_to_change + 1))
+                heapq.heappush(heap, (dist + cost_to_change + 1, npos[0], npos[1], option))
 
 # 969
 print(min(RESULTS))

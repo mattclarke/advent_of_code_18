@@ -20,7 +20,8 @@ the distance if the new distance is lower.
 - Just "reducing" the regex gave the correct answer to part 1, but it might be a fluke, and it certainly doesn't help with Part 2
 
 ### Day 22 (revisited in 2021)
-- First attempt is shortest path, takes a long while though...
+- First attempt is BFS shortest path, takes a long long time though...
+- Small change to use a heap ordered by path length, x and then y rather than a simple queue => ~1 second!
 
 ### Day 23 (revisited in 2021)
 - Struggled with a few ideas, then discussed with my wife and we came up with a sort of binary search. Failed to implement it
