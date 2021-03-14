@@ -153,18 +153,11 @@ def generate():
 # Defending groups can only be chosen by one attacker
 
 # Sort by effective power and initiative
-def sort_attackers(all_units, immune, infection):
+def do_round(all_units, immune, infection):
     total_killed = 0
-    print("\nImmune System:")
-    for i in immune:
-        print(i.name, i.num_units)
 
-    print("Infection:")
-    for i in infection:
-        print(i.name, i.num_units)
-
-    all_units = sorted(all_units, key=lambda u: u.initiative, reverse=True)
-    all_units = sorted(all_units, key=lambda u: u.effective_power, reverse=True)
+    all_units.sort(key=lambda u: u.initiative, reverse=True)
+    all_units.sort(key=lambda u: u.effective_power, reverse=True)
 
     targeted = []
 
@@ -210,23 +203,20 @@ def sort_attackers(all_units, immune, infection):
         target = o.target
         if target:
             damage = target.calculate_damage(o.damage_type, o.effective_power)
-            print(f"{o.name} would deal {target.name} {damage} damage")
 
     for i, o in enumerate(immune):
         index = all_units.index(o)
         target = o.target
         if target:
             damage = target.calculate_damage(o.damage_type, o.effective_power)
-            print(f"{o.name} would deal {target.name} {damage} damage")
 
     # Do the attacking
-    all_units = sorted(all_units, key=lambda u: u.initiative, reverse=True)
+    all_units.sort(key=lambda u: u.initiative, reverse=True)
 
     for i, u in enumerate(all_units):
         target = u.target
         if target:
             killed = target.take_hit(u.damage_type, u.effective_power)
-            print(f"{u.name} attacks {target.name}, killing {killed}")
             total_killed += killed
 
     for u in all_units:
@@ -237,14 +227,30 @@ def sort_attackers(all_units, immune, infection):
                 infection.remove(u)
 
     if total_killed == 0:
-        raise Exception("No kills")
+        # Needed for Part 2 only
+        raise NameError("No kills")
 
     remaining_units = immune[:]
     remaining_units.extend(infection)
-    return remaining_units
+    return remaining_units, immune, infection
 
 
-boost = 72
+# Part 1
+all_units, immune, infection = generate()
+
+while immune and infection:
+    all_units, immune, infection = do_round(all_units, immune, infection)
+
+result = 0
+for u in all_units:
+    result += u.num_units
+
+# 20753
+print(f"Part 1: {result}")
+
+
+# Part 2
+boost = 0
 low = 0
 old_low = 0
 high = None
@@ -257,29 +263,16 @@ while True:
             i.calc_power()
 
         while infection:
-            all_units = sort_attackers(all_units, immune, infection)
+            all_units, immune, infection = do_round(all_units, immune, infection)
             if not immune:
-                raise Exception("Failed to win")
+                raise NameError("Failed to win")
 
         count = 0
         for u in all_units:
             count += u.num_units
 
-        print(count)
-
-        if not high:
-            high = boost
-        # Try binary search
-        high = boost
-        boost = low + (high - low) // 2
-    except:
-        if not high:
-            low = boost
-            boost += 1000
-        else:
-            if low == old_low and abs(high - low) == 1:
-                boost = high
-                continue
-            old_low = low
-            low = boost
-            boost = low + (high - low) // 2
+        # 3013
+        print(f"Part 2: {count}")
+        break
+    except NameError:
+        boost += 1

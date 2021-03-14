@@ -37,6 +37,3 @@ eventually make it to the front of the queue.
 - Day 13 is a bit slow
 - Day 18 part 2 is super slow
 - Day 19 work out what is going on
-- Day 22 part 2 is very slow
-- Day 24 is slow
-
